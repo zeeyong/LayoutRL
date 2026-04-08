@@ -11,6 +11,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- MathJax for LaTeX equations -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
 
   <style>
     html { scroll-behavior: smooth; scroll-padding-top: 4rem; }
@@ -170,21 +178,51 @@
   <section id="problem" class="container-page section-y">
     <h2 class="section-title">Problem Formulation</h2>
 
-    <div class="prose-col text-gray-700 text-base sm:text-lg text-justify leading-relaxed mb-10">
-      <p>
-        We model 3D layout design as a constrained mixed-variable optimization problem. Given <em>N</em> objects
-        with predefined geometries, the goal is to determine placement coordinates <em>(x<sub>i</sub>, y<sub>i</sub>)</em>,
-        floor assignments <em>f<sub>i</sub></em>, and rotation indices <em>r<sub>i</sub></em> that minimize a
-        weighted sum of layout area and connectivity distance, subject to four geometric constraints.
-      </p>
-    </div>
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <!-- Left: formulation -->
+      <div class="text-gray-700 text-base leading-relaxed">
+        <p class="mb-4 text-justify">
+          We model 3D layout design as a constrained mixed-variable optimization problem. Given $N$ objects with
+          predefined geometries, the design variables
+          $\mathbf{D} = \{(x_i, y_i, f_i, r_i)\}_{i=1}^{N}$ collect placement coordinates, floor index, and rotation
+          index for every object.
+        </p>
 
-    <figure class="rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
-      <img src="assets/Constraints_length.png" alt="Geometric constraint rules" class="w-full h-auto" />
-      <figcaption class="px-6 py-4 text-sm text-gray-600 text-center">
-        <strong>Figure 2.</strong> Four geometric constraint rules: (a) XY-spacing, (b) floor-spacing, (c) boundary, and (d) alignment. Non-overlap is handled separately via MTV-based action correction.
-      </figcaption>
-    </figure>
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 my-4 overflow-x-auto">
+          \[
+          \begin{aligned}
+            \min_{\mathbf{D}}\quad & J(\mathbf{D}) = w_{\text{area}} A(\mathbf{D}) + w_{\text{dist}} C(\mathbf{D}) \\
+            \text{s.t.}\quad & g_k(\cdot) \le 0, \ \ k = 1,2,3,4, \\
+                             & (x_i, y_i) \in [0, L_x] \times [0, L_y], \\
+                             & f_i \in \{0, \ldots, F-1\},\ r_i \in \{0, 1\}.
+          \end{aligned}
+          \]
+        </div>
+
+        <p class="mb-3 text-justify">
+          The objective combines layout area and connectivity distance, with $w_{\text{area}}=1.0$ and
+          $w_{\text{dist}}=0.03$. Four geometric constraints define feasibility:
+        </p>
+        <ul class="text-sm space-y-1.5 list-disc pl-5">
+          <li><strong>$g_1$ — XY-spacing:</strong> $d_{xy}(i,j) - \hat{d}_{xy}(i,j) \le 0$</li>
+          <li><strong>$g_2$ — Floor-spacing:</strong> $d_{f}(i,j) - |f_i - f_j| \le 0$</li>
+          <li><strong>$g_3$ — Boundary:</strong> object $i$ entirely contained in $[0,L_x]\times[0,L_y]$</li>
+          <li><strong>$g_4$ — Alignment:</strong> aligned object's center within the reference bounding-box projection</li>
+        </ul>
+        <p class="mt-4 text-sm text-gray-600 text-justify">
+          Non-overlap is <em>not</em> added to $\{g_k\}$; it is enforced deterministically via MTV-based action correction
+          (see Method).
+        </p>
+      </div>
+
+      <!-- Right: constraints figure -->
+      <figure class="rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+        <img src="assets/Constraints_length.png" alt="Geometric constraint rules" class="w-full h-auto" />
+        <figcaption class="px-5 py-3 text-sm text-gray-600 text-center">
+          <strong>Figure 2.</strong> Four geometric constraint rules: (a) XY-spacing, (b) floor-spacing, (c) boundary, and (d) alignment.
+        </figcaption>
+      </figure>
+    </div>
   </section>
 
   <div class="hairline"></div>
