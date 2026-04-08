@@ -178,16 +178,18 @@
   <section id="problem" class="container-page section-y">
     <h2 class="section-title">Problem Formulation</h2>
 
+    <div class="prose-col text-gray-700 text-base sm:text-lg leading-relaxed text-justify mb-10">
+      <p>
+        We model 3D layout design as a constrained mixed-variable optimization problem. Given $N$ objects with
+        predefined geometries, the design variables
+        $\mathbf{D} = \{(x_i, y_i, f_i, r_i)\}_{i=1}^{N}$ collect placement coordinates, floor index, and rotation
+        index for every object.
+      </p>
+    </div>
+
     <div class="grid md:grid-cols-2 gap-10 items-center">
       <!-- Left: formulation -->
       <div class="text-gray-700 text-base leading-relaxed">
-        <p class="mb-4 text-justify">
-          We model 3D layout design as a constrained mixed-variable optimization problem. Given $N$ objects with
-          predefined geometries, the design variables
-          $\mathbf{D} = \{(x_i, y_i, f_i, r_i)\}_{i=1}^{N}$ collect placement coordinates, floor index, and rotation
-          index for every object.
-        </p>
-
         <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 my-4 overflow-x-auto">
           \[
           \begin{aligned}
