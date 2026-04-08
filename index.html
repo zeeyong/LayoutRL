@@ -268,25 +268,53 @@
       where baselines fail to produce feasible solutions.
     </p>
 
-    <div class="space-y-10">
-      <figure class="rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
-        <img src="assets/N100_performance_comparison.png" alt="N=100 comparison" class="w-full h-auto" />
-        <figcaption class="px-6 py-4 text-sm text-gray-600 text-center">
-          <strong>Figure 3.</strong> Performance comparison on the most challenging <em>N</em> = 100 setting against metaheuristic baselines.
-        </figcaption>
-      </figure>
-      <figure class="rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
-        <img src="assets/scalability.png" alt="Scalability" class="w-full h-auto" />
-        <figcaption class="px-6 py-4 text-sm text-gray-600 text-center">
-          <strong>Figure 4.</strong> Scalability of LayoutRL as the number of objects increases.
-        </figcaption>
-      </figure>
-      <figure class="rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
-        <img src="assets/length_generalization.png" alt="Length generalization" class="w-full h-auto" />
-        <figcaption class="px-6 py-4 text-sm text-gray-600 text-center">
-          <strong>Figure 5.</strong> Generalization across object-length distributions, evaluated over 100 unseen test instances.
-        </figcaption>
-      </figure>
+    <div class="space-y-14">
+      <div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Large-Scale Performance ($N=100$)</h3>
+        <p class="prose-col text-gray-700 text-justify mb-4">
+          On the most challenging $N = 100$ setting, LayoutRL achieves the lowest objective value while producing
+          <strong>zero constraint violations</strong> across all test instances. In contrast, the metaheuristic baselines
+          routinely fail to return feasible solutions at this scale, highlighting the benefit of combining hybrid actions,
+          MTV correction, and fine-grained refinement.
+        </p>
+        <figure class="rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+          <img src="assets/N100_performance_comparison.png" alt="N=100 comparison" class="w-full h-auto" />
+          <figcaption class="px-6 py-4 text-sm text-gray-600 text-center">
+            <strong>Figure 3.</strong> Performance comparison on the $N = 100$ setting against metaheuristic baselines.
+          </figcaption>
+        </figure>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Scalability</h3>
+        <p class="prose-col text-gray-700 text-justify mb-4">
+          As the number of objects grows from $N = 30$ to $N = 100$, LayoutRL maintains consistent solution quality and
+          feasibility, whereas baseline performance degrades sharply. This indicates that the unified hybrid policy scales
+          gracefully to the combinatorially harder regimes where classical search struggles.
+        </p>
+        <figure class="rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+          <img src="assets/scalability.png" alt="Scalability" class="w-full h-auto" />
+          <figcaption class="px-6 py-4 text-sm text-gray-600 text-center">
+            <strong>Figure 4.</strong> Scalability of LayoutRL with respect to the number of objects.
+          </figcaption>
+        </figure>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Generalization</h3>
+        <p class="prose-col text-gray-700 text-justify mb-4">
+          Evaluated on 100 unseen test instances with varying object-length distributions, LayoutRL delivers consistently
+          high-quality, constraint-satisfying layouts. This demonstrates that the learned policy transfers beyond the
+          specific geometries seen during training, a property that classical optimization methods lack without full
+          reformulation.
+        </p>
+        <figure class="rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+          <img src="assets/length_generalization.png" alt="Length generalization" class="w-full h-auto" />
+          <figcaption class="px-6 py-4 text-sm text-gray-600 text-center">
+            <strong>Figure 5.</strong> Generalization across object-length distributions over 100 unseen test instances.
+          </figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 
