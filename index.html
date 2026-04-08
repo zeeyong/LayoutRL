@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 4rem; }
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       color: #1f2937;
@@ -22,12 +22,36 @@
     }
     .font-serif-academic { font-family: 'Newsreader', Georgia, serif; }
     .hairline { border-top: 1px solid #e5e7eb; }
+    /* Unified section container — every section uses .container-page so widths/padding line up */
+    .container-page { max-width: 64rem; /* = max-w-5xl */ margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem; }
+    /* Uniform section vertical rhythm */
+    .section-y { padding-top: 5rem; padding-bottom: 5rem; }
+    /* Constrain prose blocks within the wider container for readability */
+    .prose-col { max-width: 48rem; margin-left: auto; margin-right: auto; }
+    /* Section title style */
+    .section-title { font-family: 'Newsreader', Georgia, serif; font-weight: 600; font-size: 2rem; line-height: 1.2; color: #111827; text-align: center; margin-bottom: 2.5rem; }
+    @media (min-width: 640px) { .section-title { font-size: 2.25rem; } }
   </style>
 </head>
 <body class="leading-relaxed">
 
+  <!-- =============== STICKY NAV =============== -->
+  <nav class="sticky top-0 z-40 backdrop-blur bg-white/80 border-b border-gray-200">
+    <div class="container-page flex items-center justify-between h-14">
+      <a href="#top" class="font-serif-academic font-semibold text-gray-900">LayoutRL</a>
+      <div class="hidden md:flex gap-6 text-sm text-gray-600">
+        <a href="#abstract" class="hover:text-gray-900">Abstract</a>
+        <a href="#introduction" class="hover:text-gray-900">Introduction</a>
+        <a href="#problem" class="hover:text-gray-900">Problem</a>
+        <a href="#method" class="hover:text-gray-900">Method</a>
+        <a href="#experiments" class="hover:text-gray-900">Experiments</a>
+        <a href="#bibtex" class="hover:text-gray-900">BibTeX</a>
+      </div>
+    </div>
+  </nav>
+
   <!-- =============== HEADER =============== -->
-  <header class="max-w-5xl mx-auto px-6 pt-16 pb-12 text-center">
+  <header id="top" class="container-page section-y text-center">
     <h1 class="font-serif-academic text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-gray-900 leading-tight">
       Constraint-Aware Large-Scale 3D Layout Optimization<br/>
       <span class="text-3xl sm:text-4xl md:text-5xl text-gray-700">via Hybrid Deep Reinforcement Learning</span>
@@ -67,22 +91,22 @@
         <i class="fas fa-quote-right"></i> BibTeX
       </a>
     </div>
-  </header>
 
-  <!-- =============== TEASER =============== -->
-  <section class="max-w-5xl mx-auto px-6 pb-12">
-    <figure class="rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+    <!-- Teaser figure -->
+    <figure class="mt-12 rounded-xl overflow-hidden border border-gray-200 bg-gray-50 text-left">
       <img src="assets/Framework.png" alt="LayoutRL framework" class="w-full h-auto" />
       <figcaption class="px-6 py-4 text-sm text-gray-600 text-center">
-        <strong>Figure 1.</strong> The LayoutRL framework. A unified hybrid policy jointly outputs continuous placement coordinates and discrete floor/rotation decisions, while MTV-based action correction enforces non-overlap, and a fine-grained optimization stage refines the RL solution.
+        <strong>Figure 1.</strong> The LayoutRL framework. A unified hybrid policy jointly outputs continuous placement coordinates and discrete floor / rotation decisions, while MTV-based action correction enforces non-overlap, and a fine-grained optimization stage refines the RL solution.
       </figcaption>
     </figure>
-  </section>
+  </header>
+
+  <div class="hairline"></div>
 
   <!-- =============== ABSTRACT =============== -->
-  <section class="max-w-3xl mx-auto px-6 py-12">
-    <h2 class="font-serif-academic text-3xl font-semibold text-gray-900 text-center mb-6">Abstract</h2>
-    <div class="text-gray-700 text-base sm:text-lg text-justify leading-relaxed">
+  <section id="abstract" class="container-page section-y">
+    <h2 class="section-title">Abstract</h2>
+    <div class="prose-col text-gray-700 text-base sm:text-lg text-justify leading-relaxed">
       <p>
         Large-scale 3D layout optimization requires simultaneous satisfaction of multiple heterogeneous constraints
         while optimizing a multi-component objective over a mixed-variable design space. Existing metaheuristic
@@ -102,11 +126,25 @@
     </div>
   </section>
 
-  <div class="hairline max-w-5xl mx-auto"></div>
+  <div class="hairline"></div>
 
-  <!-- =============== CONTRIBUTIONS =============== -->
-  <section class="max-w-4xl mx-auto px-6 py-16">
-    <h2 class="font-serif-academic text-3xl font-semibold text-gray-900 text-center mb-10">Contributions</h2>
+  <!-- =============== INTRODUCTION / CONTRIBUTIONS =============== -->
+  <section id="introduction" class="container-page section-y">
+    <h2 class="section-title">Introduction</h2>
+    <div class="prose-col text-gray-700 text-base sm:text-lg text-justify leading-relaxed mb-12">
+      <p>
+        Large-scale layout optimization is a fundamental challenge across PCB design, industrial plant layout,
+        satellite configuration, and ship engine room arrangement. Mixed-integer programming offers optimality
+        guarantees but does not scale beyond ~30 objects, while metaheuristics scale further at the cost of
+        feasibility and confinement to 2D. Most existing DRL methods commit to a single action space—either purely
+        continuous or purely discrete—and therefore cannot capture the mixed-variable structure inherent to
+        real-world 3D placement, where coordinates demand continuous resolution and floor / rotation decisions are
+        fundamentally discrete. <strong>LayoutRL</strong> addresses these gaps with a unified hybrid policy,
+        deterministic non-overlap correction, and a fine-grained refinement stage.
+      </p>
+    </div>
+
+    <h3 class="text-center text-sm uppercase tracking-widest text-gray-500 mb-6">Contributions</h3>
     <div class="grid md:grid-cols-3 gap-6">
       <div class="p-6 rounded-xl border border-gray-200 bg-gray-50">
         <div class="text-blue-600 text-2xl mb-3"><i class="fas fa-cubes"></i></div>
@@ -126,60 +164,98 @@
     </div>
   </section>
 
-  <div class="hairline max-w-5xl mx-auto"></div>
+  <div class="hairline"></div>
+
+  <!-- =============== PROBLEM FORMULATION =============== -->
+  <section id="problem" class="container-page section-y">
+    <h2 class="section-title">Problem Formulation</h2>
+
+    <div class="prose-col text-gray-700 text-base sm:text-lg text-justify leading-relaxed mb-10">
+      <p>
+        We model 3D layout design as a constrained mixed-variable optimization problem. Given <em>N</em> objects
+        with predefined geometries, the goal is to determine placement coordinates <em>(x<sub>i</sub>, y<sub>i</sub>)</em>,
+        floor assignments <em>f<sub>i</sub></em>, and rotation indices <em>r<sub>i</sub></em> that minimize a
+        weighted sum of layout area and connectivity distance, subject to four geometric constraints.
+      </p>
+    </div>
+
+    <figure class="rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+      <img src="assets/Constraints_length.png" alt="Geometric constraint rules" class="w-full h-auto" />
+      <figcaption class="px-6 py-4 text-sm text-gray-600 text-center">
+        <strong>Figure 2.</strong> Four geometric constraint rules: (a) XY-spacing, (b) floor-spacing, (c) boundary, and (d) alignment. Non-overlap is handled separately via MTV-based action correction.
+      </figcaption>
+    </figure>
+  </section>
+
+  <div class="hairline"></div>
 
   <!-- =============== METHOD =============== -->
-  <section class="max-w-5xl mx-auto px-6 py-16">
-    <h2 class="font-serif-academic text-3xl font-semibold text-gray-900 text-center mb-10">Method</h2>
+  <section id="method" class="container-page section-y">
+    <h2 class="section-title">Method</h2>
 
-    <div class="space-y-16">
-      <div class="grid md:grid-cols-2 gap-8 items-center">
-        <img src="assets/HybridActor.png" alt="Hybrid actor architecture" class="w-full rounded-lg border border-gray-200" />
-        <div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-3">Hybrid Actor</h3>
-          <p class="text-gray-700">A shared encoder branches into a Beta head for continuous placements <em>(x, y)</em> and categorical heads for floor index and rotation, allowing the policy to express precise spatial decisions and discrete structural choices simultaneously.</p>
-        </div>
+    <div class="grid md:grid-cols-2 gap-10 items-center mb-16">
+      <img src="assets/HybridActor.png" alt="Hybrid actor architecture" class="w-full rounded-lg border border-gray-200" />
+      <div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-3">Hybrid Actor</h3>
+        <p class="text-gray-700">A shared encoder branches into a Beta head for continuous placements <em>(x, y)</em> and categorical heads for floor index and rotation, allowing the policy to express precise spatial decisions and discrete structural choices simultaneously.</p>
       </div>
+    </div>
 
-      <div class="grid md:grid-cols-2 gap-8 items-center">
-        <div class="md:order-1 order-2">
-          <h3 class="text-xl font-semibold text-gray-900 mb-3">Constraint Modeling</h3>
-          <p class="text-gray-700">Four geometric rules govern feasibility: <em>(a)</em> XY-spacing, <em>(b)</em> floor-spacing, <em>(c)</em> boundary, and <em>(d)</em> alignment. Non-overlap is handled separately via MTV correction; the remaining rules enter the reward as structured cost signals.</p>
-        </div>
-        <img src="assets/Constraints_length.png" alt="Geometric constraint rules" class="w-full rounded-lg border border-gray-200 md:order-2 order-1" />
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="p-6 rounded-xl border border-gray-200">
+        <h3 class="font-semibold text-gray-900 mb-2">MTV Correction</h3>
+        <p class="text-sm text-gray-700">Non-overlap is deterministically enforced at the environment level by minimally displacing objects via the minimum translation vector, providing dense and informative reward signals.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-gray-200">
+        <h3 class="font-semibold text-gray-900 mb-2">Action Relabeling + Beta Policy</h3>
+        <p class="text-sm text-gray-700">PPO updates use the corrected action so importance ratios stay consistent, while a Beta distribution avoids the numerical instability of tanh-squashed Gaussians at boundaries.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-gray-200">
+        <h3 class="font-semibold text-gray-900 mb-2">Fine-Grained Refinement</h3>
+        <p class="text-sm text-gray-700">The RL solution is used as a warm start for local optimization, refining placements to satisfy spacing, boundary, and alignment constraints while improving objective value.</p>
       </div>
     </div>
   </section>
 
-  <div class="hairline max-w-5xl mx-auto"></div>
+  <div class="hairline"></div>
 
-  <!-- =============== RESULTS =============== -->
-  <section class="max-w-6xl mx-auto px-6 py-16">
-    <h2 class="font-serif-academic text-3xl font-semibold text-gray-900 text-center mb-4">Results</h2>
-    <p class="text-center text-gray-600 mb-10 max-w-2xl mx-auto">Across <em>N</em> = 30, 50, 70, 100 object scales, LayoutRL attains <strong>zero constraint violations</strong> while consistently outperforming metaheuristic baselines—including the large-scale <em>N</em> = 100 regime where baselines fail to produce feasible solutions.</p>
+  <!-- =============== EXPERIMENTS =============== -->
+  <section id="experiments" class="container-page section-y">
+    <h2 class="section-title">Experiments</h2>
+    <p class="prose-col text-center text-gray-600 mb-12">
+      Across <em>N</em> = 30, 50, 70, 100 object scales, LayoutRL attains <strong>zero constraint violations</strong>
+      while consistently outperforming metaheuristic baselines—including the large-scale <em>N</em> = 100 regime
+      where baselines fail to produce feasible solutions.
+    </p>
 
-    <div class="grid lg:grid-cols-2 gap-6">
+    <div class="space-y-10">
       <figure class="rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
         <img src="assets/N100_performance_comparison.png" alt="N=100 comparison" class="w-full h-auto" />
-        <figcaption class="px-4 py-3 text-sm text-gray-600">Performance comparison on the most challenging <em>N</em> = 100 setting against metaheuristic baselines.</figcaption>
+        <figcaption class="px-6 py-4 text-sm text-gray-600 text-center">
+          <strong>Figure 3.</strong> Performance comparison on the most challenging <em>N</em> = 100 setting against metaheuristic baselines.
+        </figcaption>
       </figure>
       <figure class="rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
         <img src="assets/scalability.png" alt="Scalability" class="w-full h-auto" />
-        <figcaption class="px-4 py-3 text-sm text-gray-600">Scalability of LayoutRL as the number of objects increases.</figcaption>
+        <figcaption class="px-6 py-4 text-sm text-gray-600 text-center">
+          <strong>Figure 4.</strong> Scalability of LayoutRL as the number of objects increases.
+        </figcaption>
       </figure>
-      <figure class="rounded-lg overflow-hidden border border-gray-200 bg-gray-50 lg:col-span-2">
+      <figure class="rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
         <img src="assets/length_generalization.png" alt="Length generalization" class="w-full h-auto" />
-        <figcaption class="px-4 py-3 text-sm text-gray-600">Generalization across object-length distributions, evaluated over 100 unseen test instances.</figcaption>
+        <figcaption class="px-6 py-4 text-sm text-gray-600 text-center">
+          <strong>Figure 5.</strong> Generalization across object-length distributions, evaluated over 100 unseen test instances.
+        </figcaption>
       </figure>
     </div>
   </section>
 
-  <div class="hairline max-w-5xl mx-auto"></div>
+  <div class="hairline"></div>
 
   <!-- =============== BIBTEX =============== -->
-  <section id="bibtex" class="max-w-3xl mx-auto px-6 py-16">
-    <h2 class="font-serif-academic text-3xl font-semibold text-gray-900 text-center mb-6">BibTeX</h2>
-    <div class="relative">
+  <section id="bibtex" class="container-page section-y">
+    <h2 class="section-title">BibTeX</h2>
+    <div class="prose-col relative">
       <pre class="bg-gray-900 text-gray-100 text-sm rounded-lg p-5 overflow-x-auto"><code id="bibtex-content">@article{kim2026layoutrl,
   title   = {Constraint-Aware Large-Scale 3D Layout Optimization
              via Hybrid Deep Reinforcement Learning},
@@ -196,7 +272,7 @@
 
   <!-- =============== FOOTER =============== -->
   <footer class="hairline">
-    <div class="max-w-5xl mx-auto px-6 py-10 text-center text-sm text-gray-500">
+    <div class="container-page py-10 text-center text-sm text-gray-500">
       <p>© 2026 Jiyong Kim, Seokjun Kim, Namwoo Kang. KAIST · Narnia Labs.</p>
       <p class="mt-2">
         Website template adapted from
